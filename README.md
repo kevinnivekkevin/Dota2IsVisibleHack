@@ -5,7 +5,8 @@ A simple C++ program that reads a particular memory address of the dota 2 game t
 (Working as of 21/4/21)
 
 ### How to use
-You can either compile the main.cpp yourself or run the executable in the debug folder.
+1. You can either compile the main.cpp yourself or run the executable in the debug folder.
+2. Run Dota 2 in borderless mode.
 
 ### Not seen
 ![1](https://user-images.githubusercontent.com/63487456/115535417-50a54000-a2cb-11eb-861d-1ae43f23b7fc.PNG)
