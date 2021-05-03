@@ -2,7 +2,7 @@
 
 A simple C++ program that reads a particular memory address of the dota 2 game to allow the player to know whether he can be seen by the enemy currently. (similar to slark's passive ult)
 
-(Working as of 21/4/21)
+(Working as of 3/5/21)
 
 ### How to use
 1. You can either compile the main.cpp yourself or run the executable in the debug folder.
