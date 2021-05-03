@@ -2,10 +2,6 @@
 #include <Windows.h>
 #include <tlhelp32.h>
 
-HBRUSH greenBrush = CreateSolidBrush(RGB(0, 255, 0));
-HBRUSH redBrush = CreateSolidBrush(RGB(255, 0, 0));
-HBRUSH whiteBrush = CreateSolidBrush(RGB(255, 255, 255));
-
 using namespace std;
 uintptr_t GetModuleBaseAddress(DWORD dwProcID, char* szModuleName)
 {
@@ -49,21 +45,14 @@ HANDLE GetProcessHandle(const char *procName)
     return hProc;
 }
 
-void createText(HDC hdc, LPCSTR text)
+void createText(HDC hdc, LPCSTR text, int r, int g, int b)
 {
-    HFONT hfont = CreateFont(48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Roboto Th");
+    HFONT hfont = CreateFont(30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Roboto Th");
     SelectObject(hdc, hfont);
-    SetTextColor(hdc, RGB(255, 255, 255));
-    SetBkMode(hdc, TRANSPARENT);
+    SetTextColor(hdc, RGB(r, g, b));
+//    SetBkMode(hdc, TRANSPARENT);
     TextOut(hdc, 0, 0, text, strlen(text));
 }
-
-// void OnPaint(HDC hdc, HBRUSH brush)
-// {
-// //    ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false);
-//     RECT rect = { 900, 50, 1000, 100 };
-//     FillRect(hdc, &rect, brush);
-// }
 
 int getPIDByName(){
     PROCESSENTRY32 entry;
@@ -96,25 +85,22 @@ void isVisible(){
     //Read memory values with offsets
     uintptr_t temp;
     int isVisible;
-    ReadProcessMemory(pHandle, (void*)(enginedllbaseaddr + 0x575050), &temp, sizeof(temp), nullptr); //base + engine2.dll module offset
+    ReadProcessMemory(pHandle, (void*)(enginedllbaseaddr + 0x575090), &temp, sizeof(temp), nullptr); //base + engine2.dll module offset //0x575050 to 0x575090
     ReadProcessMemory(pHandle, (void*)(temp + 0x0), &temp, sizeof(temp), nullptr);
     ReadProcessMemory(pHandle, (void*)(temp + 0x28), &temp, sizeof(temp), nullptr);
     ReadProcessMemory(pHandle, (void*)(temp + 0x38), &temp, sizeof(temp), nullptr);
     ReadProcessMemory(pHandle, (void*)(temp + 0x70), &temp, sizeof(temp), nullptr);
-    ReadProcessMemory(pHandle, (void*)(temp + 0x1B8), &temp, sizeof(temp), nullptr);
+    ReadProcessMemory(pHandle, (void*)(temp + 0x1B8), &temp, sizeof(temp), nullptr); //1B4 to 1B8
     ReadProcessMemory(pHandle, (void*)(temp + 0x0), &temp, sizeof(temp), nullptr);
 
     while(1){
         ReadProcessMemory(pHandle, (void*)(temp + 0x1E4), &isVisible, sizeof(isVisible), nullptr);
         if (isVisible == 6 | isVisible == 10){
-           // OnPaint(hdc, greenBrush);
-            createText(hdc, "NotSeen");
+            createText(hdc, "NotSeen", 0, 255, 0);
         }else if (isVisible == 14){
-            //OnPaint(hdc, redBrush);
-            createText(hdc, "Seen");
+            createText(hdc, "Seen", 255, 0 ,0);
         }else{
-            //OnPaint(hdc, whiteBrush);
-            createText(hdc, "running");
+            createText(hdc, "running", 0, 0 ,0);
         }
 //        Check if exit
         if(GetKeyState(27) & 0x8000 && (GetKeyState(VK_SHIFT) & 0x8000))
