@@ -49,12 +49,21 @@ HANDLE GetProcessHandle(const char *procName)
     return hProc;
 }
 
-void OnPaint(HDC hdc, HBRUSH brush)
+void createText(HDC hdc, LPCSTR text)
 {
-//    ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false);
-    RECT rect = { 900, 50, 1000, 100 };
-    FillRect(hdc, &rect, brush);
+    HFONT hfont = CreateFont(48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Roboto Th");
+    SelectObject(hdc, hfont);
+    SetTextColor(hdc, RGB(255, 255, 255));
+    SetBkMode(hdc, TRANSPARENT);
+    TextOut(hdc, 0, 0, text, strlen(text));
 }
+
+// void OnPaint(HDC hdc, HBRUSH brush)
+// {
+// //    ShowWindow(FindWindowA("ConsoleWindowClass", NULL), false);
+//     RECT rect = { 900, 50, 1000, 100 };
+//     FillRect(hdc, &rect, brush);
+// }
 
 int getPIDByName(){
     PROCESSENTRY32 entry;
@@ -98,11 +107,14 @@ void isVisible(){
     while(1){
         ReadProcessMemory(pHandle, (void*)(temp + 0x1E4), &isVisible, sizeof(isVisible), nullptr);
         if (isVisible == 6 | isVisible == 10){
-            OnPaint(hdc, greenBrush);
+           // OnPaint(hdc, greenBrush);
+            createText(hdc, "NotSeen");
         }else if (isVisible == 14){
-            OnPaint(hdc, redBrush);
+            //OnPaint(hdc, redBrush);
+            createText(hdc, "Seen");
         }else{
-            OnPaint(hdc, whiteBrush);
+            //OnPaint(hdc, whiteBrush);
+            createText(hdc, "running");
         }
 //        Check if exit
         if(GetKeyState(27) & 0x8000 && (GetKeyState(VK_SHIFT) & 0x8000))
