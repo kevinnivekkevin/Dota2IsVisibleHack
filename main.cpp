@@ -85,12 +85,12 @@ void isVisible(){
     //Read memory values with offsets
     uintptr_t temp;
     int isVisible;
-    ReadProcessMemory(pHandle, (void*)(enginedllbaseaddr + 0x575090), &temp, sizeof(temp), nullptr); //base + engine2.dll module offset //0x575050 to 0x575090
+    ReadProcessMemory(pHandle, (void*)(enginedllbaseaddr + 0x5727C0), &temp, sizeof(temp), nullptr); //base + engine2.dll module offset //0x575050 to 0x575090
     ReadProcessMemory(pHandle, (void*)(temp + 0x0), &temp, sizeof(temp), nullptr);
     ReadProcessMemory(pHandle, (void*)(temp + 0x28), &temp, sizeof(temp), nullptr);
     ReadProcessMemory(pHandle, (void*)(temp + 0x38), &temp, sizeof(temp), nullptr);
-    ReadProcessMemory(pHandle, (void*)(temp + 0x70), &temp, sizeof(temp), nullptr);
-    ReadProcessMemory(pHandle, (void*)(temp + 0x1B8), &temp, sizeof(temp), nullptr); //1B4 to 1B8
+    ReadProcessMemory(pHandle, (void*)(temp + 0x98), &temp, sizeof(temp), nullptr);
+    ReadProcessMemory(pHandle, (void*)(temp + 0x170), &temp, sizeof(temp), nullptr); //1B4 to 1B8
     ReadProcessMemory(pHandle, (void*)(temp + 0x0), &temp, sizeof(temp), nullptr);
 
     while(1){
